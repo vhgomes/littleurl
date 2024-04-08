@@ -39,7 +39,7 @@ public class UserController {
         this.jwtEncoder = jwtEncoder;
     }
 
-    @PostMapping("/users")
+    @PostMapping("/register")
     @Transactional
     public ResponseEntity<Void> register(@RequestBody CreateUserDTO createUserDTO) {
         var basicRole = roleRepository.findByName(Role.Values.BASIC.name());
@@ -66,7 +66,7 @@ public class UserController {
         }
 
         var now = Instant.now();
-        var expiresIn = 300L;
+        var expiresIn = 3600L;
         var scopes = user.get().getRoles().stream().map(Role::getName).collect(Collectors.joining(" "));
 
         var claims = JwtClaimsSet.builder()

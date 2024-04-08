@@ -26,8 +26,8 @@ public class UrlController {
 
     @GetMapping("/urls")
     public ResponseEntity<Optional<URL>> getAllUrls(JwtAuthenticationToken jwtAuthenticationToken) {
-        var user = userRepository.findById(UUID.fromString(jwtAuthenticationToken.getName()));
-        var urls = urlRepository.findById(user.get().getUserId());
+        var user = userRepository.findById(UUID.fromString(jwtAuthenticationToken.getName())).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        var urls = urlRepository.findById(user.getUserId());
         return ResponseEntity.ok(urls);
     }
 
